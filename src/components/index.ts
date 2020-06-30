@@ -1,3 +1,4 @@
+import MainSection from './MainSection';
 import NavigationBar from './NavigationBar';
 
-export { NavigationBar };
+export { MainSection, NavigationBar };

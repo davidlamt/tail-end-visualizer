@@ -1,11 +1,12 @@
 import React from 'react';
 
-import { NavigationBar } from './components';
+import { MainSection, NavigationBar } from './components';
 
 const App: React.FunctionComponent = () => {
   return (
     <div>
       <NavigationBar />
+      <MainSection />
     </div>
   );
 };
