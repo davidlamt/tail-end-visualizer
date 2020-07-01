@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-interface PointsProps {
+interface PointProps {
   selected?: boolean;
 }
 
-const StyledPoint = styled.span<PointsProps>`
+const StyledPoint = styled.span<PointProps>`
   animation: ${(props): string =>
     props.selected ? 'selectedAnimation 2s linear' : ''};
   background-color: ${(props): string => (props.selected ? '#90a9b7' : '')};
@@ -41,7 +41,7 @@ const StyledPoint = styled.span<PointsProps>`
   }
 `;
 
-const Point: React.FunctionComponent<PointsProps> = ({
+const Point: React.FunctionComponent<PointProps> = ({
   selected = false,
 }: {
   selected?: boolean;
