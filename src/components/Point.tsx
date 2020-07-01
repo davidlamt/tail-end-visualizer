@@ -8,12 +8,17 @@ interface PointsProps {
 const StyledPoint = styled.span<PointsProps>`
   animation: ${(props): string =>
     props.selected ? 'selectedAnimation 2s linear' : ''};
-  animation-fill-mode: forwards;
+  background-color: ${(props): string => (props.selected ? '#90a9b7' : '')};
   border: 1px solid #000;
   display: inline-block;
   height: 25px;
   margin: 5px;
+  transition: transform 1s ease;
   width: 25px;
+
+  &:hover {
+    transform: rotate(45deg);
+  }
 
   @keyframes selectedAnimation {
     0% {
