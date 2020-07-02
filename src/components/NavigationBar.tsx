@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 import { primaryButtonBase } from './styles';
 
+import { useAppContext } from '../hooks/';
+
 const AgeInput = styled.input`
   background-color: #ebebeb;
   border-bottom-left-radius: 5px;
@@ -50,19 +52,27 @@ const VisualizeButton = styled.button`
 `;
 
 const NavigationBar: React.FunctionComponent = () => {
-  const [age, setAge] = useState('');
+  const { setAge } = useAppContext();
+  const [currentAge, setCurrentAge] = useState('');
 
   return (
     <NavigationContainer>
       <NavigationHeader>The Tail End Visualizer</NavigationHeader>
       <InputContainer>
         <AgeInput
-          onChange={(e) => e.target.validity.valid && setAge(e.target.value)}
+          onChange={(e) =>
+            e.target.validity.valid && setCurrentAge(e.target.value)
+          }
           pattern="[0-9]*"
           placeholder="Enter your age"
-          value={age}
+          value={currentAge}
         />
-        <VisualizeButton disabled={!age}>Visualize</VisualizeButton>
+        <VisualizeButton
+          disabled={!currentAge}
+          onClick={() => setAge(+currentAge)}
+        >
+          Visualize
+        </VisualizeButton>
       </InputContainer>
     </NavigationContainer>
   );

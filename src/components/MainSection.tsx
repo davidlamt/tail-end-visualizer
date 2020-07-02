@@ -4,6 +4,8 @@ import styled from '@emotion/styled';
 import { linkBase } from './styles';
 import { Point } from './';
 
+import { useAppContext } from '../hooks';
+
 const Description = styled.div`
   font-size: 18px;
   text-align: center;
@@ -22,7 +24,7 @@ const MainContainer = styled.div`
 `;
 
 const MainSection: React.FunctionComponent = () => {
-  const age = 25;
+  const { age } = useAppContext();
   const years = 90;
   const columns = 10;
   const pointsFragment: React.ReactElement[] = [];
@@ -37,10 +39,11 @@ const MainSection: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
+    setAnimateIdx(0);
     for (let idx = 1; idx <= age; idx++) {
       setTimeout(() => setAnimateIdx(idx), 50 * idx);
     }
-  }, []);
+  }, [age]);
 
   return (
     <MainContainer>

@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { MainSection, NavigationBar } from './components';
+import { AppProvider, MainSection, NavigationBar } from './components';
 
 const App: React.FunctionComponent = () => {
   return (
-    <div>
+    <AppProvider>
       <NavigationBar />
       <MainSection />
-    </div>
+    </AppProvider>
   );
 };
 
