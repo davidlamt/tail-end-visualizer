@@ -50,12 +50,19 @@ const VisualizeButton = styled.button`
 `;
 
 const NavigationBar: React.FunctionComponent = () => {
+  const [age, setAge] = useState('');
+
   return (
     <NavigationContainer>
       <NavigationHeader>The Tail End Visualizer</NavigationHeader>
       <InputContainer>
-        <AgeInput placeholder="Enter your age" />
-        <VisualizeButton>Visualize</VisualizeButton>
+        <AgeInput
+          onChange={(e) => e.target.validity.valid && setAge(e.target.value)}
+          pattern="[0-9]*"
+          placeholder="Enter your age"
+          value={age}
+        />
+        <VisualizeButton disabled={!age}>Visualize</VisualizeButton>
       </InputContainer>
     </NavigationContainer>
   );
