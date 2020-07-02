@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
+import { linkBase } from './styles';
 import { Point } from './';
 
 const Description = styled.div`
@@ -8,7 +9,7 @@ const Description = styled.div`
   text-align: center;
 
   a {
-    color: #d4aa7d;
+    ${linkBase}
   }
 `;
 

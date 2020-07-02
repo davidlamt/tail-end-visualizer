@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
+
+import { primaryButtonBase } from './styles';
 
 const AgeInput = styled.input`
   background-color: #ebebeb;
@@ -41,20 +43,10 @@ const NavigationHeader = styled.h1`
 `;
 
 const VisualizeButton = styled.button`
-  background-color: #d4aa7d;
+  ${primaryButtonBase}
+
   border-bottom-right-radius: 5px;
   border-top-right-radius: 5px;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  font-size: 1em;
-  min-width: 100px;
-  outline: none;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #cc9b66;
-  }
 `;
 
 const NavigationBar: React.FunctionComponent = () => {
