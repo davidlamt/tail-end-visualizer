@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
 import { primaryButtonBase } from './styles';
+import { LoadingDots } from './';
 
 import { useAppContext } from '../hooks/';
 
@@ -52,7 +53,7 @@ const VisualizeButton = styled.button`
 `;
 
 const NavigationBar: React.FunctionComponent = () => {
-  const { setAge } = useAppContext();
+  const { isAnimating, setAge } = useAppContext();
   const [currentAge, setCurrentAge] = useState('');
 
   return (
@@ -68,10 +69,10 @@ const NavigationBar: React.FunctionComponent = () => {
           value={currentAge}
         />
         <VisualizeButton
-          disabled={!currentAge}
+          disabled={!currentAge || isAnimating}
           onClick={() => setAge(+currentAge)}
         >
-          Visualize
+          {isAnimating ? <LoadingDots /> : 'Visualize'}
         </VisualizeButton>
       </InputContainer>
     </NavigationContainer>

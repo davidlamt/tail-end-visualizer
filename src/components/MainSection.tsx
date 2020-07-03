@@ -24,14 +24,14 @@ const MainContainer = styled.div`
 `;
 
 const MainSection: React.FunctionComponent = () => {
-  const { age } = useAppContext();
+  const { age, setIsAnimating } = useAppContext();
   const years = 90;
   const columns = 10;
   const pointsFragment: React.ReactElement[] = [];
-  const [animateIdx, setAnimateIdx] = useState(0);
+  const [animateRange, setAnimateRange] = useState(0);
 
   for (let idx = 1; idx <= years; idx++) {
-    pointsFragment.push(<Point key={idx} selected={idx <= animateIdx} />);
+    pointsFragment.push(<Point key={idx} selected={idx <= animateRange} />);
 
     if (idx % columns === 0) {
       pointsFragment.push(<div key={'divider' + idx} />);
@@ -39,11 +39,20 @@ const MainSection: React.FunctionComponent = () => {
   }
 
   useEffect(() => {
-    setAnimateIdx(0);
+    setAnimateRange(0);
+
     for (let idx = 1; idx <= age; idx++) {
-      setTimeout(() => setAnimateIdx(idx), 50 * idx);
+      setTimeout(() => {
+        setAnimateRange(idx);
+
+        if (idx === 1) {
+          setIsAnimating(true);
+        } else if (idx === age) {
+          setIsAnimating(false);
+        }
+      }, 50 * idx);
     }
-  }, [age]);
+  }, [age, setIsAnimating]);
 
   return (
     <MainContainer>
