@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { linkBase } from './styles';
-import { Point } from './';
+import { Point, Tooltip } from './';
 
 import { useAppContext } from '../hooks';
 
@@ -25,18 +25,10 @@ const MainContainer = styled.div`
 
 const MainSection: React.FunctionComponent = () => {
   const { age, setIsAnimating } = useAppContext();
+  const [animateRange, setAnimateRange] = useState(0);
   const years = 90;
   const columns = 10;
   const pointsFragment: React.ReactElement[] = [];
-  const [animateRange, setAnimateRange] = useState(0);
-
-  for (let idx = 1; idx <= years; idx++) {
-    pointsFragment.push(<Point key={idx} selected={idx <= animateRange} />);
-
-    if (idx % columns === 0) {
-      pointsFragment.push(<div key={'divider' + idx} />);
-    }
-  }
 
   useEffect(() => {
     setAnimateRange(0);
@@ -54,6 +46,18 @@ const MainSection: React.FunctionComponent = () => {
     }
   }, [age, setIsAnimating]);
 
+  for (let idx = 1; idx <= years; idx++) {
+    pointsFragment.push(
+      <Tooltip key={idx} title="Test Tooltip">
+        <Point selected={idx <= animateRange} />
+      </Tooltip>
+    );
+
+    if (idx % columns === 0) {
+      pointsFragment.push(<div key={'divider' + idx} />);
+    }
+  }
+
   return (
     <MainContainer>
       <Description>
@@ -66,6 +70,7 @@ const MainSection: React.FunctionComponent = () => {
           .
         </p>
       </Description>
+      {/* TODO: Can we remove this div? */}
       <div>{pointsFragment}</div>
     </MainContainer>
   );
