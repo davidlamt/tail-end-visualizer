@@ -70,7 +70,6 @@ const MainSection: React.FunctionComponent = () => {
           .
         </p>
       </Description>
-      {/* TODO: Can we remove this div? */}
       <div>{pointsFragment}</div>
     </MainContainer>
   );
