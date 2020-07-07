@@ -31,8 +31,11 @@ const TooltipContent = styled.div<TooltipStyleProps>`
   background-color: #282c34;
   border-radius: 5px;
   color: #fff;
-  padding: 5px;
+  min-width: 300px;
+  padding: 10px;
   position: absolute;
+  text-align: center;
+  white-space: pre-wrap;
   z-index: 10;
 
   @keyframes fadeIn {
