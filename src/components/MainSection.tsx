@@ -7,6 +7,9 @@ import { Point, Tooltip } from './';
 import { useAppContext } from '../hooks';
 import perYearStatistics from '../static/perYearStatistics';
 
+const MAX_AGE = 90;
+const MAX_COLUMNS = 10;
+
 const Description = styled.div`
   font-size: 18px;
   text-align: center;
@@ -32,14 +35,15 @@ const statisticFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const generateTooltipContent = (age: number): string => {
-  const percentOfTotal = Math.floor((age / 90) * 100);
+  const percentOfTotal = Math.floor((age / MAX_AGE) * 100);
   const randomStatistic =
     perYearStatistics[Math.floor(Math.random() * perYearStatistics.length)];
-  const totalStatisticCountLeft = randomStatistic.perYearCount * (90 - age);
+  const totalStatisticCountLeft =
+    randomStatistic.perYearCount * (MAX_AGE - age);
 
   /* eslint-disable */
   return (
-    'Year ' + age + ' (' + percentOfTotal + '% to 90)' + '\n' + 
+    'Year ' + age + ' (' + percentOfTotal + '% to ' + MAX_AGE + ')' + '\n' + 
     'There\'s about ' + statisticFormatter.format(totalStatisticCountLeft) + ' ' + randomStatistic.noun + 's left. Make them count!'
   );
   /* eslint-enable */
@@ -48,8 +52,6 @@ const generateTooltipContent = (age: number): string => {
 const MainSection: React.FunctionComponent = () => {
   const { age, setIsAnimating } = useAppContext();
   const [animateRange, setAnimateRange] = useState(0);
-  const years = 90;
-  const columns = 10;
   const pointsFragment: React.ReactElement[] = [];
 
   useEffect(() => {
@@ -68,7 +70,7 @@ const MainSection: React.FunctionComponent = () => {
     }
   }, [age, setIsAnimating]);
 
-  for (let idx = 1; idx <= years; idx++) {
+  for (let idx = 1; idx <= MAX_AGE; idx++) {
     const selected = idx <= animateRange;
 
     pointsFragment.push(
@@ -77,7 +79,7 @@ const MainSection: React.FunctionComponent = () => {
       </Tooltip>
     );
 
-    if (idx % columns === 0) {
+    if (idx % MAX_COLUMNS === 0) {
       pointsFragment.push(<div key={'divider' + idx} />);
     }
   }
