@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 
 import { linkBase } from './styles';
@@ -51,10 +51,26 @@ const generateTooltipContent = (age: number): string => {
 
 const MainSection: React.FunctionComponent = () => {
   const { age, setIsAnimating } = useAppContext();
+  const [animateLastSelected, setAnimateLastSelected] = useState(false);
   const [animateRange, setAnimateRange] = useState(0);
+  const agePointRef = useRef<HTMLSpanElement | null>(null);
   const pointsFragment: React.ReactElement[] = [];
 
+  const showSelectedAgeTooltip = (visible = true) => {
+    if (agePointRef && agePointRef.current) {
+      const mouseEventType = visible ? 'mouseover' : 'mouseout';
+      const event = new MouseEvent(mouseEventType, {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      });
+
+      (agePointRef.current as EventTarget).dispatchEvent(event);
+    }
+  };
+
   useEffect(() => {
+    setAnimateLastSelected(false);
     setAnimateRange(0);
 
     for (let idx = 1; idx <= age; idx++) {
@@ -64,7 +80,11 @@ const MainSection: React.FunctionComponent = () => {
         if (idx === 1) {
           setIsAnimating(true);
         } else if (idx === age) {
-          setIsAnimating(false);
+          setTimeout(() => {
+            setIsAnimating(false);
+            setAnimateLastSelected(true);
+            showSelectedAgeTooltip();
+          }, 2000);
         }
       }, 50 * idx);
     }
@@ -75,7 +95,11 @@ const MainSection: React.FunctionComponent = () => {
 
     pointsFragment.push(
       <Tooltip key={idx} title={generateTooltipContent(idx)}>
-        <Point selected={selected} />
+        <Point
+          lastSelected={animateLastSelected && idx === age}
+          pointRef={(ref) => idx === age && (agePointRef.current = ref)}
+          selected={selected}
+        />
       </Tooltip>
     );
 
@@ -96,7 +120,9 @@ const MainSection: React.FunctionComponent = () => {
           .
         </p>
       </Description>
-      <div>{pointsFragment}</div>
+      <div onMouseEnter={() => showSelectedAgeTooltip(false)}>
+        {pointsFragment}
+      </div>
     </MainContainer>
   );
 };
