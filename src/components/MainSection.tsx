@@ -50,14 +50,13 @@ const generateTooltipContent = (age: number): string => {
 };
 
 const MainSection: React.FunctionComponent = () => {
-  const { age, setIsAnimating } = useAppContext();
-  const [animateLastSelected, setAnimateLastSelected] = useState(false);
+  const { age, isAnimating, setIsAnimating } = useAppContext();
   const [animateRange, setAnimateRange] = useState(0);
-  const agePointRef = useRef<HTMLSpanElement | null>(null);
+  const lastSelectedPointRef = useRef<HTMLSpanElement | null>(null);
   const pointsFragment: React.ReactElement[] = [];
 
   const showSelectedAgeTooltip = (visible = true) => {
-    if (agePointRef && agePointRef.current) {
+    if (lastSelectedPointRef && lastSelectedPointRef.current) {
       const mouseEventType = visible ? 'mouseover' : 'mouseout';
       const event = new MouseEvent(mouseEventType, {
         bubbles: true,
@@ -65,12 +64,11 @@ const MainSection: React.FunctionComponent = () => {
         view: window,
       });
 
-      (agePointRef.current as EventTarget).dispatchEvent(event);
+      (lastSelectedPointRef.current as EventTarget).dispatchEvent(event);
     }
   };
 
   useEffect(() => {
-    setAnimateLastSelected(false);
     setAnimateRange(0);
 
     for (let idx = 1; idx <= age; idx++) {
@@ -82,7 +80,6 @@ const MainSection: React.FunctionComponent = () => {
         } else if (idx === age) {
           setTimeout(() => {
             setIsAnimating(false);
-            setAnimateLastSelected(true);
             showSelectedAgeTooltip();
           }, 2000);
         }
@@ -96,8 +93,10 @@ const MainSection: React.FunctionComponent = () => {
     pointsFragment.push(
       <Tooltip key={idx} title={generateTooltipContent(idx)}>
         <Point
-          lastSelected={animateLastSelected && idx === age}
-          pointRef={(ref) => idx === age && (agePointRef.current = ref)}
+          lastSelected={!isAnimating && idx === age}
+          pointRef={(ref) =>
+            idx === age && (lastSelectedPointRef.current = ref)
+          }
           selected={selected}
         />
       </Tooltip>
