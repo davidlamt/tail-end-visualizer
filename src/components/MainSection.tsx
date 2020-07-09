@@ -49,22 +49,37 @@ const generateTooltipContent = (age: number): string => {
   /* eslint-enable */
 };
 
+const mouseOverEvent = new MouseEvent('mouseover', {
+  bubbles: true,
+  cancelable: true,
+  view: window,
+});
+
+const mouseOutEvent = new MouseEvent('mouseout', {
+  bubbles: true,
+  cancelable: true,
+  view: window,
+});
+
+let previousLastSelectedPointRef: HTMLSpanElement | null = null;
+
 const MainSection: React.FunctionComponent = () => {
   const { age, isAnimating, setIsAnimating } = useAppContext();
   const [animateRange, setAnimateRange] = useState(0);
   const lastSelectedPointRef = useRef<HTMLSpanElement | null>(null);
   const pointsFragment: React.ReactElement[] = [];
 
-  const showSelectedAgeTooltip = (visible = true) => {
-    if (lastSelectedPointRef && lastSelectedPointRef.current) {
-      const mouseEventType = visible ? 'mouseover' : 'mouseout';
-      const event = new MouseEvent(mouseEventType, {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-      });
+  const showSelectedAgeTooltip = (
+    visible = true,
+    pointRef = lastSelectedPointRef?.current
+  ) => {
+    if (pointRef) {
+      if (previousLastSelectedPointRef) {
+        previousLastSelectedPointRef.dispatchEvent(mouseOutEvent);
+      }
+      previousLastSelectedPointRef = pointRef;
 
-      (lastSelectedPointRef.current as EventTarget).dispatchEvent(event);
+      pointRef.dispatchEvent(visible ? mouseOverEvent : mouseOutEvent);
     }
   };
 
