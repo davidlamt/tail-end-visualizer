@@ -91,7 +91,11 @@ const MainSection: React.FunctionComponent = () => {
     const selected = idx <= animateRange;
 
     pointsFragment.push(
-      <Tooltip key={idx} title={generateTooltipContent(idx)}>
+      <Tooltip
+        disabled={isAnimating}
+        key={idx}
+        title={generateTooltipContent(idx)}
+      >
         <Point
           lastSelected={!isAnimating && idx === age}
           pointRef={(ref) =>

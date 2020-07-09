@@ -59,12 +59,14 @@ const TooltipContent = styled.div<TooltipStyleProps>`
 
 interface TooltipProps {
   children: React.ReactElement | React.ReactElement[];
+  disabled?: boolean;
   position?: string;
   title: string;
 }
 
 const Tooltip: React.FunctionComponent<TooltipProps> = ({
   children,
+  disabled = false,
   position = 'bottom',
   title,
 }: TooltipProps) => {
@@ -76,7 +78,7 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
       onMouseLeave={() => setIsVisible(false)}
     >
       {children}
-      {isVisible && (
+      {!disabled && isVisible && (
         <TooltipContent position={position}>
           <TooltipArrow position={position} />
           {title}
