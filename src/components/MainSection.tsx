@@ -112,6 +112,7 @@ const MainSection: React.FunctionComponent = () => {
         title={generateTooltipContent(idx)}
       >
         <Point
+          disableHover={isAnimating}
           lastSelected={!isAnimating && idx === age}
           pointRef={(ref) =>
             idx === age && (lastSelectedPointRef.current = ref)
