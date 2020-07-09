@@ -17,9 +17,8 @@ const StyledPoint = styled.span<PointProps>`
       : ''};
   background-color: ${(props): string => (props.selected ? '#90a9b7' : '')};
   border: 1px solid #000;
-  display: inline-block;
+  display: block;
   height: 25px;
-  margin: 5px;
   transition: transform 1s ease;
   width: 25px;
 

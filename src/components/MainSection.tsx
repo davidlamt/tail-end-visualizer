@@ -107,9 +107,11 @@ const MainSection: React.FunctionComponent = () => {
 
     pointsFragment.push(
       <Tooltip
+        containerStyle={{ margin: '5px' }}
         disabled={isAnimating}
         key={idx}
         title={generateTooltipContent(idx)}
+        tooltipStyle={{ marginTop: '15px' }}
       >
         <Point
           disableHover={isAnimating}
