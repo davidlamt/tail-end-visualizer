@@ -109,8 +109,8 @@ const MainSection: React.FunctionComponent = () => {
       <Tooltip
         containerStyle={{ margin: '5px' }}
         disabled={isAnimating}
+        getTitle={() => generateTooltipContent(idx)}
         key={idx}
-        title={generateTooltipContent(idx)}
         tooltipStyle={{ marginTop: '15px' }}
       >
         <Point

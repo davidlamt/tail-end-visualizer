@@ -59,23 +59,35 @@ const TooltipContent = styled.div<TooltipStyleProps>`
     `}
 `;
 
-interface TooltipProps {
+interface BaseTooltipProps {
   children: React.ReactElement | React.ReactElement[];
   containerStyle?: {
     margin?: string;
   };
   disabled?: boolean;
   position?: string;
-  title: string;
   tooltipStyle?: {
     marginTop?: string;
   };
 }
 
+interface TooltipPropsWithGetTitle extends BaseTooltipProps {
+  getTitle: () => string;
+  title?: never;
+}
+
+interface TooltipPropsWithTitle extends BaseTooltipProps {
+  getTitle?: never;
+  title: string;
+}
+
+type TooltipProps = TooltipPropsWithGetTitle | TooltipPropsWithTitle;
+
 const Tooltip: React.FunctionComponent<TooltipProps> = ({
   children,
   containerStyle = {},
   disabled = false,
+  getTitle,
   position = 'bottom',
   title,
   tooltipStyle = {},
@@ -92,7 +104,7 @@ const Tooltip: React.FunctionComponent<TooltipProps> = ({
       {!disabled && isVisible && (
         <TooltipContent position={position} style={tooltipStyle}>
           <TooltipArrow position={position} />
-          {title}
+          {getTitle ? getTitle() : title}
         </TooltipContent>
       )}
     </TooltipContainer>
