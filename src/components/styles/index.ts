@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 const primaryColor = '#d4aa7d';
 const primaryColorActive = '#cc9b66';
 const primaryColorInactive = '#e6cdb2';
+const brandDark = '#282c34';
 
 const linkBase = css`
   color: ${primaryColor};
@@ -28,5 +29,5 @@ const primaryButtonBase = css`
   }
 `;
 
-export { primaryColor, primaryColorActive, primaryColorInactive };
+export { brandDark, primaryColor, primaryColorActive, primaryColorInactive };
 export { linkBase, primaryButtonBase };

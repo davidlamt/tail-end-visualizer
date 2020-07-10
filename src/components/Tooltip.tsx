@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 
+import { brandDark } from './styles';
+
 interface TooltipStyleProps {
   position: string;
 }
@@ -12,7 +14,7 @@ const TooltipArrow = styled.span<TooltipStyleProps>`
   ${(props) =>
     props.position === 'bottom' &&
     css`
-      border-bottom: 8px solid #282c34;
+      border-bottom: 8px solid ${brandDark};
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
       left: 50%;
@@ -28,7 +30,7 @@ const TooltipContainer = styled.span`
 
 const TooltipContent = styled.div<TooltipStyleProps>`
   animation: fadeIn ease-in 0.5s;
-  background-color: #282c34;
+  background-color: ${brandDark};
   border-radius: 5px;
   color: #fff;
   min-width: 300px;

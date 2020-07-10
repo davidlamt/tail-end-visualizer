@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 
-import { primaryButtonBase } from './styles';
+import { brandDark, primaryButtonBase } from './styles';
 import { LoadingDots } from './';
 
 import { useAppContext } from '../hooks/';
@@ -28,7 +28,7 @@ const InputContainer = styled.div`
 
 const NavigationContainer = styled.nav`
   align-items: center;
-  background-color: #282c34;
+  background-color: ${brandDark};
   color: #fff;
   display: flex;
   justify-content: space-between;
