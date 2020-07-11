@@ -35,6 +35,10 @@ const statisticFormatter = new Intl.NumberFormat('en-US', {
 });
 
 const generateTooltipContent = (age: number): string => {
+  if (age === MAX_AGE) {
+    return '🎉🎉🎉\nWoo! Celebrations are in order!\n🎊 🎊';
+  }
+
   const percentOfTotal = Math.floor((age / MAX_AGE) * 100);
   const randomStatistic =
     perYearStatistics[Math.floor(Math.random() * perYearStatistics.length)];
