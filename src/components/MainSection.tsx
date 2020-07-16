@@ -88,15 +88,16 @@ const MainSection: React.FunctionComponent = () => {
   };
 
   useEffect(() => {
+    if (age < 1) return;
+
     setAnimateRange(0);
+    setIsAnimating(true);
 
     for (let idx = 1; idx <= age; idx++) {
       setTimeout(() => {
         setAnimateRange(idx);
 
-        if (idx === 1) {
-          setIsAnimating(true);
-        } else if (idx === age) {
+        if (idx === age) {
           setTimeout(() => {
             setIsAnimating(false);
             showSelectedAgeTooltip();
