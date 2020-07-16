@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 
 import { linkBase } from './styles';
@@ -65,11 +65,37 @@ const mouseOutEvent = new MouseEvent('mouseout', {
   view: window,
 });
 
+const ClassModifier = {
+  COMPLETE: '--complete',
+  LAST_SELECTED: '--lastSelected',
+  SELECTED: '--selected',
+};
+
+const resetPointClassModifiers = () => {
+  const baseClass = pointRefs[1].classList[0];
+
+  for (let idx = 1; idx <= MAX_AGE; idx++) {
+    pointRefs[idx].classList.remove(
+      `${baseClass}${ClassModifier.COMPLETE}`,
+      `${baseClass}${ClassModifier.LAST_SELECTED}`,
+      `${baseClass}${ClassModifier.SELECTED}`
+    );
+  }
+};
+
+const addPointClassModifiers = (classModifier: string) => {
+  const baseClass = pointRefs[1].classList[0];
+
+  for (let idx = 1; idx <= MAX_AGE; idx++) {
+    pointRefs[idx].classList.add(`${baseClass}${classModifier}`);
+  }
+};
+
+const pointRefs: HTMLSpanElement[] = new Array(MAX_AGE);
 let previousLastSelectedPointRef: HTMLSpanElement | null = null;
 
 const MainSection: React.FunctionComponent = () => {
   const { age, isAnimating, setIsAnimating } = useAppContext();
-  const [animateRange, setAnimateRange] = useState(0);
   const lastSelectedPointRef = useRef<HTMLSpanElement | null>(null);
   const pointsFragment: React.ReactElement[] = [];
 
@@ -90,17 +116,24 @@ const MainSection: React.FunctionComponent = () => {
   useEffect(() => {
     if (age < 1) return;
 
-    setAnimateRange(0);
+    resetPointClassModifiers();
     setIsAnimating(true);
 
     for (let idx = 1; idx <= age; idx++) {
       setTimeout(() => {
-        setAnimateRange(idx);
+        const baseClass = pointRefs[idx].classList[0];
+        pointRefs[idx].classList.add(`${baseClass}${ClassModifier.SELECTED}`);
 
         if (idx === age) {
           setTimeout(() => {
             setIsAnimating(false);
             showSelectedAgeTooltip();
+
+            pointRefs[idx].classList.add(
+              `${baseClass}${ClassModifier.LAST_SELECTED}`
+            );
+
+            addPointClassModifiers(ClassModifier.COMPLETE);
           }, 2000);
         }
       }, 50 * idx);
@@ -108,8 +141,6 @@ const MainSection: React.FunctionComponent = () => {
   }, [age, setIsAnimating]);
 
   for (let idx = 1; idx <= MAX_AGE; idx++) {
-    const selected = idx <= animateRange;
-
     pointsFragment.push(
       <Tooltip
         containerStyle={{ margin: '5px' }}
@@ -119,12 +150,12 @@ const MainSection: React.FunctionComponent = () => {
         tooltipStyle={{ marginTop: '15px' }}
       >
         <Point
-          disableHover={isAnimating}
-          lastSelected={!isAnimating && idx === age}
-          pointRef={(ref) =>
-            idx === age && (lastSelectedPointRef.current = ref)
-          }
-          selected={selected}
+          pointRef={(ref) => {
+            if (ref) {
+              if (idx === age) lastSelectedPointRef.current = ref;
+              pointRefs[idx] = ref;
+            }
+          }}
         />
       </Tooltip>
     );

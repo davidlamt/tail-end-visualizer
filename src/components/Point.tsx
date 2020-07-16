@@ -2,28 +2,29 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 interface PointProps {
-  disableHover?: boolean;
-  lastSelected?: boolean;
   pointRef?: (ref: HTMLSpanElement | null) => void;
-  selected?: boolean;
 }
 
 const StyledPoint = styled.span<PointProps>`
-  animation: ${(props): string =>
-    props.lastSelected
-      ? 'rotateAnimation 10s linear infinite'
-      : props.selected
-      ? 'selectedAnimation 2s linear'
-      : ''};
-  background-color: ${(props): string => (props.selected ? '#90a9b7' : '')};
   border: 1px solid #000;
   display: block;
   height: 25px;
-  transition: transform 1s ease;
+  transition: transform 1s ease, background-color 0.5s linear;
   width: 25px;
 
-  &:hover {
-    transform: ${(props) => (props.disableHover ? '' : 'rotate(45deg)')};
+  &--complete {
+    &:hover {
+      transform: rotate(45deg);
+    }
+  }
+
+  &--lastSelected {
+    animation: rotateAnimation 10s linear infinite !important;
+  }
+
+  &--selected {
+    animation: selectedAnimation 2s linear;
+    background-color: #90a9b7;
   }
 
   @keyframes selectedAnimation {
@@ -57,19 +58,9 @@ const StyledPoint = styled.span<PointProps>`
 `;
 
 const Point: React.FunctionComponent<PointProps> = ({
-  disableHover = false,
-  lastSelected = false,
   pointRef,
-  selected = false,
 }: PointProps) => {
-  return (
-    <StyledPoint
-      disableHover={disableHover}
-      lastSelected={lastSelected}
-      ref={pointRef}
-      selected={selected}
-    />
-  );
+  return <StyledPoint ref={pointRef} />;
 };
 
 export default Point;
