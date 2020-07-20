@@ -18,13 +18,13 @@ const StyledPoint = styled.span<PointProps>`
     }
   }
 
-  &--lastSelected {
-    animation: rotateAnimation 10s linear infinite !important;
-  }
-
   &--selected {
     animation: selectedAnimation 2s linear;
     background-color: #90a9b7;
+  }
+
+  &--lastSelected {
+    animation: rotateAnimation 10s linear infinite;
   }
 
   @keyframes selectedAnimation {
