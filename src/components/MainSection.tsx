@@ -144,7 +144,7 @@ const MainSection: React.FunctionComponent = () => {
     pointsFragment.push(
       <Tooltip
         containerStyle={{ margin: '5px' }}
-        disabled={isAnimating}
+        disabled={isAnimating || !age}
         getTitle={() => generateTooltipContent(idx)}
         key={idx}
         tooltipStyle={{ marginTop: '15px' }}
