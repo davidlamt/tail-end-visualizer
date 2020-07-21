@@ -4,8 +4,13 @@ import styled from '@emotion/styled';
 import { linkBase } from './styles';
 import { Point, Tooltip } from './';
 
+import { ClassModifier } from '../enums';
 import { useAppContext } from '../hooks';
 import perYearStatistics from '../static/perYearStatistics';
+import {
+  addPointClassModifiers,
+  resetPointClassModifiers,
+} from '../utils/pointClassModifiers';
 
 const MAX_AGE = 90;
 const MAX_COLUMNS = 10;
@@ -65,32 +70,6 @@ const mouseOutEvent = new MouseEvent('mouseout', {
   view: window,
 });
 
-const ClassModifier = {
-  COMPLETE: '--complete',
-  LAST_SELECTED: '--lastSelected',
-  SELECTED: '--selected',
-};
-
-const resetPointClassModifiers = () => {
-  const baseClass = pointRefs[1].classList[0];
-
-  for (let idx = 1; idx <= MAX_AGE; idx++) {
-    pointRefs[idx].classList.remove(
-      `${baseClass}${ClassModifier.COMPLETE}`,
-      `${baseClass}${ClassModifier.LAST_SELECTED}`,
-      `${baseClass}${ClassModifier.SELECTED}`
-    );
-  }
-};
-
-const addPointClassModifiers = (classModifier: string) => {
-  const baseClass = pointRefs[1].classList[0];
-
-  for (let idx = 1; idx <= MAX_AGE; idx++) {
-    pointRefs[idx].classList.add(`${baseClass}${classModifier}`);
-  }
-};
-
 const pointRefs: HTMLSpanElement[] = new Array(MAX_AGE);
 let previousLastSelectedPointRef: HTMLSpanElement | null = null;
 
@@ -116,13 +95,13 @@ const MainSection: React.FunctionComponent = () => {
   useEffect(() => {
     if (age < 1) return;
 
-    resetPointClassModifiers();
+    resetPointClassModifiers(pointRefs);
     setIsAnimating(true);
 
     for (let idx = 1; idx <= age; idx++) {
       setTimeout(() => {
         const baseClass = pointRefs[idx].classList[0];
-        pointRefs[idx].classList.add(`${baseClass}${ClassModifier.SELECTED}`);
+        pointRefs[idx].classList.add(`${baseClass}${ClassModifier.Selected}`);
 
         if (idx === age) {
           setTimeout(() => {
@@ -130,10 +109,10 @@ const MainSection: React.FunctionComponent = () => {
             showSelectedAgeTooltip();
 
             pointRefs[idx].classList.add(
-              `${baseClass}${ClassModifier.LAST_SELECTED}`
+              `${baseClass}${ClassModifier.LastSelected}`
             );
 
-            addPointClassModifiers(ClassModifier.COMPLETE);
+            addPointClassModifiers(ClassModifier.Complete, pointRefs);
           }, 2000);
         }
       }, 50 * idx);
