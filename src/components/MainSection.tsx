@@ -11,6 +11,7 @@ import {
   addPointClassModifiers,
   resetPointClassModifiers,
 } from '../utils/pointClassModifiers';
+import { mouseOverEvent, mouseOutEvent } from '../utils/mouseEvents';
 
 const MAX_AGE = 90;
 const MAX_COLUMNS = 10;
@@ -57,18 +58,6 @@ const generateTooltipContent = (age: number): string => {
   );
   /* eslint-enable */
 };
-
-const mouseOverEvent = new MouseEvent('mouseover', {
-  bubbles: true,
-  cancelable: true,
-  view: window,
-});
-
-const mouseOutEvent = new MouseEvent('mouseout', {
-  bubbles: true,
-  cancelable: true,
-  view: window,
-});
 
 const pointRefs: HTMLSpanElement[] = new Array(MAX_AGE);
 let previousLastSelectedPointRef: HTMLSpanElement | null = null;

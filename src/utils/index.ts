@@ -1,3 +1,4 @@
+import mouseEvents from './mouseEvents';
 import pointClassModifiers from './pointClassModifiers';
 
-export { pointClassModifiers };
+export { mouseEvents, pointClassModifiers };
