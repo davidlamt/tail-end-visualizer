@@ -52,8 +52,10 @@ const VisualizeButton = styled.button`
   border-top-right-radius: 5px;
 `;
 
+let lastSelectedAge = 0;
+
 const NavigationBar: React.FunctionComponent = () => {
-  const { isAnimating, setAge } = useAppContext();
+  const { forceRerender, isAnimating, setAge } = useAppContext();
   const [currentAge, setCurrentAge] = useState('');
 
   return (
@@ -70,7 +72,14 @@ const NavigationBar: React.FunctionComponent = () => {
         />
         <VisualizeButton
           disabled={!currentAge || isAnimating}
-          onClick={() => setAge(+currentAge)}
+          onClick={() => {
+            if (lastSelectedAge === +currentAge) {
+              forceRerender();
+            } else {
+              lastSelectedAge = +currentAge;
+              setAge(+currentAge);
+            }
+          }}
         >
           {isAnimating ? <LoadingDots /> : 'Visualize'}
         </VisualizeButton>

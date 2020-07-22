@@ -63,7 +63,7 @@ const pointRefs: HTMLSpanElement[] = new Array(MAX_AGE);
 let previousLastSelectedPointRef: HTMLSpanElement | null = null;
 
 const MainSection: React.FunctionComponent = () => {
-  const { age, isAnimating, setIsAnimating } = useAppContext();
+  const { age, isAnimating, rerenderBuster, setIsAnimating } = useAppContext();
   const lastSelectedPointRef = useRef<HTMLSpanElement | null>(null);
   const pointsFragment: React.ReactElement[] = [];
 
@@ -106,7 +106,7 @@ const MainSection: React.FunctionComponent = () => {
         }
       }, 50 * idx);
     }
-  }, [age, setIsAnimating]);
+  }, [age, rerenderBuster, setIsAnimating]);
 
   for (let idx = 1; idx <= MAX_AGE; idx++) {
     pointsFragment.push(
