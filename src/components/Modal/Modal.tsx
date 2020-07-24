@@ -6,8 +6,7 @@ import { ModalPortal } from './';
 const ModalBox = styled.div`
   background-color: #fff;
   border-radius: 5px;
-  height: 300px;
-  padding: 10px;
+  padding: 20px 10px;
   width: 300px;
 `;
 

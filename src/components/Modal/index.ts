@@ -1,4 +1,5 @@
+import InvalidAgeModal from './InvalidAgeModal';
 import Modal from './Modal';
 import ModalPortal from './ModalPortal';
 
-export { Modal, ModalPortal };
+export { InvalidAgeModal, Modal, ModalPortal };
