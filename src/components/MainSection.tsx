@@ -140,7 +140,7 @@ const MainSection: React.FunctionComponent = () => {
         <p>
           This tool is based on{' '}
           <a href="https://waitbutwhy.com/2015/12/the-tail-end.html">
-            The Tail End article on Wait Buy Why
+            The Tail End article on Wait But Why
           </a>
           .
         </p>
