@@ -3,8 +3,6 @@ import styled from '@emotion/styled';
 
 import { Modal } from '.';
 
-import { useAppContext } from '../../hooks';
-
 const Title = styled.div`
   font-size: 2em;
   margin-bottom: 15px;
@@ -22,14 +20,18 @@ const EdgeAge = {
   Max: 90,
 };
 
-const InvalidAgeModal: React.FunctionComponent = () => {
-  const { age } = useAppContext();
+interface InvalidAgeModalProps {
+  options: { age?: number };
+}
 
+const InvalidAgeModal: React.FunctionComponent<InvalidAgeModalProps> = ({
+  options: { age = 0 },
+}: InvalidAgeModalProps) => {
   let content;
   if (age < EdgeAge.Min) {
     content =
       "You're too young to be using the computer. Hold on, I'm contacting your parents right now.";
-  } else if (age >= EdgeAge.Max) {
+  } else if (age > EdgeAge.Max) {
     content =
       '?$#JKkdjak9()%#5DAISI#$(@*/\nDoE5 N0T CoMpuT3\n\nJust kidding, get outta here and enjoy life!!';
   }

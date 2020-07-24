@@ -52,11 +52,37 @@ const VisualizeButton = styled.button`
   border-top-right-radius: 5px;
 `;
 
+const MIN_AGE = 1;
+const MAX_AGE = 90;
 let lastSelectedAge = 0;
 
 const NavigationBar: React.FunctionComponent = () => {
-  const { forceRerender, isAnimating, setAge } = useAppContext();
+  const {
+    forceRerender,
+    hideModal,
+    isAnimating,
+    setAge,
+    showModal,
+  } = useAppContext();
   const [currentAge, setCurrentAge] = useState('');
+
+  const onVisualize = () => {
+    const age = +currentAge;
+
+    if (age < MIN_AGE || age > MAX_AGE) {
+      showModal('invalidAge', { age });
+      return;
+    }
+
+    hideModal();
+
+    if (lastSelectedAge === age) {
+      forceRerender();
+    } else {
+      lastSelectedAge = age;
+      setAge(age);
+    }
+  };
 
   return (
     <NavigationContainer>
@@ -72,14 +98,7 @@ const NavigationBar: React.FunctionComponent = () => {
         />
         <VisualizeButton
           disabled={!currentAge || isAnimating}
-          onClick={() => {
-            if (lastSelectedAge === +currentAge) {
-              forceRerender();
-            } else {
-              lastSelectedAge = +currentAge;
-              setAge(+currentAge);
-            }
-          }}
+          onClick={onVisualize}
         >
           {isAnimating ? <LoadingDots /> : 'Visualize'}
         </VisualizeButton>

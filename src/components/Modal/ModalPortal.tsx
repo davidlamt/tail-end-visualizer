@@ -11,7 +11,7 @@ ModalContainer.style.left = '0';
 ModalContainer.style.position = 'absolute';
 ModalContainer.style.top = '0';
 ModalContainer.style.width = '100%';
-ModalContainer.style.zIndex = '1';
+ModalContainer.style.zIndex = '99';
 
 const modalRoot = document.getElementById('modal');
 
