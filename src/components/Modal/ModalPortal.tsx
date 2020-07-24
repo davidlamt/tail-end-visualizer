@@ -15,13 +15,13 @@ ModalContainer.style.zIndex = '1';
 
 const modalRoot = document.getElementById('modal');
 
-interface ModalProps {
-  children: React.ReactElement | string;
+interface ModalPortalProps {
+  children: Element | React.ReactElement | string;
 }
 
-const ModalPortal: React.FunctionComponent<ModalProps> = ({
+const ModalPortal: React.FunctionComponent<ModalPortalProps> = ({
   children,
-}: ModalProps) => {
+}: ModalPortalProps) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   if (!containerRef.current) {
     containerRef.current = ModalContainer;
