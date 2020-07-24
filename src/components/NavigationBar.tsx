@@ -57,13 +57,7 @@ const MAX_AGE = 90;
 let lastSelectedAge = 0;
 
 const NavigationBar: React.FunctionComponent = () => {
-  const {
-    forceRerender,
-    hideModal,
-    isAnimating,
-    setAge,
-    showModal,
-  } = useAppContext();
+  const { forceRerender, isAnimating, setAge, showModal } = useAppContext();
   const [currentAge, setCurrentAge] = useState('');
 
   const onVisualize = () => {
@@ -73,8 +67,6 @@ const NavigationBar: React.FunctionComponent = () => {
       showModal('invalidAge', { age });
       return;
     }
-
-    hideModal();
 
     if (lastSelectedAge === age) {
       forceRerender();

@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 
 import { ModalPortal } from './';
+
+import { useAppContext } from '../../hooks';
 
 const ModalBox = styled.div`
   animation: slideInTop ease-in 0.3s;
@@ -25,14 +27,39 @@ const ModalBox = styled.div`
 
 interface ModalProps {
   children: Element | React.ReactElement | string;
+  closeOnOutsideClick?: boolean;
 }
 
 const Modal: React.FunctionComponent<ModalProps> = ({
   children,
+  closeOnOutsideClick = false,
 }: ModalProps) => {
+  const { hideModal } = useAppContext();
+  const modalBoxRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      if (
+        closeOnOutsideClick &&
+        modalBoxRef &&
+        modalBoxRef.current &&
+        !modalBoxRef.current.contains(event.target as Node)
+      ) {
+        hideModal();
+      }
+    }
+
+    if (closeOnOutsideClick) {
+      document.addEventListener('mousedown', handleClick);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClick);
+    };
+  }, [closeOnOutsideClick, hideModal]);
+
   return (
     <ModalPortal>
-      <ModalBox>{children}</ModalBox>
+      <ModalBox ref={modalBoxRef}>{children}</ModalBox>
     </ModalPortal>
   );
 };

@@ -69,7 +69,7 @@ const InvalidAgeModal: React.FunctionComponent<InvalidAgeModalProps> = ({
   }
 
   return (
-    <Modal>
+    <Modal closeOnOutsideClick>
       <React.Fragment>
         <TitleContainer>
           <Title>Whoa there...</Title>
