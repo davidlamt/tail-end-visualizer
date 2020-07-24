@@ -4,10 +4,23 @@ import styled from '@emotion/styled';
 import { ModalPortal } from './';
 
 const ModalBox = styled.div`
+  animation: slideInTop ease-in 0.3s;
   background-color: #fff;
   border-radius: 5px;
-  padding: 20px 10px;
+  padding: 30px;
   width: 300px;
+
+  @keyframes slideInTop {
+    0% {
+      opacity: 0;
+      transform: translateY(-25%);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
 `;
 
 interface ModalProps {
